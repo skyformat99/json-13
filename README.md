@@ -4,7 +4,7 @@ A simple and easy json library for converting json to c++ class and converting c
 ## c++ class to json
 将C++类转化为JSON格式的字符串时，需要在C++类定义相关字段时用reflect模板类进行包装。  
 refelect模板类目前支持的类型有
-```
+```c++
 bool
 char 
 unsigned char
@@ -20,7 +20,7 @@ std::string
 std::vector
 ```
 下面是用reflect包装字段的一些例子
-```
+```c++
 struct peple
 {
 	// 所有需要json序列化的字段需要用reflect模板类进行包装
@@ -34,7 +34,7 @@ struct peple
 	}
 };
 ```
-```
+```c++
 struct family
 {
 	// 没用reflect模板类进行包装的字段不参与序列化
@@ -59,7 +59,7 @@ struct family
 };
 ```
 接下来用上面定义的peple、family来演示一下该如何将C++类转化为JSON。我们先请出王大锤的一家：
-```
+```c++
 	// 构造测试数据
 	// reflect已重载操作符=，可以直接使用=赋值
 	peple father;father.age = 40;father.name = "王大锤";
@@ -79,7 +79,7 @@ struct family
 	myfamily.children().push_back(child2); 
 ```
 对构造好的测试数据进行json编码，我们只需要调用一行代码：
-```
+```c++
 	string jsonStr = json::Marshal(myfamily, true);
 ```
 只需调用json类的Marshal静态方法，传入王大锤的一家就可以得到json格式的字符串了。以下是jsonStr的打印结果:
@@ -109,13 +109,14 @@ struct family
 ***
 ## json to c++ class
 将json转化为C++类，同样只需调用一行代码:
-```
+
+```c++
 	family myfamily2;
 	json::Unmarshal(jsonStr, myfamily2)
 ```
 json类的Unmarshal静态方法，提供json格式字符串到C++类的功能。当然这个C++类的成员变量必须是用reflect模板类包装过的。
 最后我们来打印一下myfamily2的信息：
-```
+```c++
 	// 测试打印json解码结果
 	cout << "-------------json解码:--------------" << endl;
 	cout << "id:" << myfamily2.id 
@@ -163,9 +164,8 @@ JSON编解码部分是采用boost库提供的相关功能。
 ***
 ## 写在最后
 本库的宗旨是简单、简单、再简单。就个人而言，所接触的所有C++ JSON库抛去性能不谈，光易用性方面都不是很好。C++由于没有反射功能，我所接触的这些库实现只能大量使用宏，或者大量编写额外代码来实现JSON到C++类，及C++类到JSON的功能，这样高层业务代码非常臃肿，不像其他语言那样方便。  
-本库从Golang语言中的json库获得了大量灵感，于是萌生了写这个库的想法。当然由于需要扫描内存建立内存布局，性能方面是不及Golang的。上面的测试例子，编码耗时大概0.08ms，比Golang的效率低了大概20多倍，有兴趣的朋友可以跟其他语言的json库做个性能对比。但是由于为了追求易用性，我觉得这些性能牺牲都是值得的。  
+本库从Golang语言中的json库获得了大量灵感，于是萌生了写这个库的想法。当然由于需要扫描内存建立内存布局，性能方面是不及Golang的。上面的测试例子，编码耗时大概0.08ms，比Golang的效率低了大概20多倍，有兴趣的朋友可以跟其他语言的json库做个性能对比。但是由于为了追求易用性，我认为这些性能牺牲都是值得的。  
 最后，感谢王大锤的一家，最近一个月下班时间有你们的陪伴，我不再孤单，谢谢！
-
 
 
 
