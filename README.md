@@ -1,4 +1,5 @@
 # json
+十分简单易用的JSON库，从C++类到JSON，以及JSON到C++类。
 A simple and easy json library for converting json to c++ class and converting c++ class to json.
 ***
 ## c++ class to json
